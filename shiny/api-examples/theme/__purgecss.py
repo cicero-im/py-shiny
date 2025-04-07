@@ -10,6 +10,7 @@ import subprocess
 from pathlib import Path
 
 from shared import filler_text, my_theme
+from security import safe_command
 
 my_theme.name = "demo"
 
@@ -53,7 +54,7 @@ args = [
     "css",
 ]
 
-subprocess.run(args)
+safe_command.run(subprocess.run, args)
 
 (purged_dir / "shiny-theme-demo.min.css").rename(purged_dir / "shiny-theme-demo.css")
 

@@ -11,6 +11,7 @@ from typing import IO, Any, Callable, Generator, List, Optional, TextIO, Type, U
 
 from .._docstring import no_example
 from .._utils import random_port
+from security import safe_command
 
 __all__ = (
     "ShinyAppProc",
@@ -242,8 +243,7 @@ def run_shiny_app(
     """
     shiny_port = port if port != 0 else random_port()
 
-    child = subprocess.Popen(
-        [
+    child = safe_command.run(subprocess.Popen, [
             sys.executable,
             "-m",
             "shiny",
