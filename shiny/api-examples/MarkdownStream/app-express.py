@@ -18,8 +18,8 @@ with ui.card(height="400px", class_="mt-3", full_screen=True):
 
 # Read in the README.md file from the py-shiny repository
 readme = requests.get(
-    "https://raw.githubusercontent.com/posit-dev/py-shiny/refs/heads/main/README.md"
-)
+    "https://raw.githubusercontent.com/posit-dev/py-shiny/refs/heads/main/README.md", 
+timeout=60)
 readme_chunks = readme.text.replace("\n", " \n ").split(" ")
 
 
