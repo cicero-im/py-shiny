@@ -1,6 +1,6 @@
-import random
 
 from shiny import App, Inputs, Outputs, Session, reactive, render, ui
+import secrets
 
 app_ui = ui.page_fluid(
     ui.markdown(
@@ -36,12 +36,12 @@ app_ui = ui.page_fluid(
 
 def server(input: Inputs, output: Outputs, session: Session):
     # Update a random number every second
-    val = reactive.value(random.randint(0, 1000))
+    val = reactive.value(secrets.SystemRandom().randint(0, 1000))
 
     @reactive.effect
     def _():
         reactive.invalidate_later(0.5)
-        val.set(random.randint(0, 1000))
+        val.set(secrets.SystemRandom().randint(0, 1000))
 
     # Always update this output when the number is updated
     @render.ui

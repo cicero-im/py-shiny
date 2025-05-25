@@ -1,8 +1,8 @@
-import random
 
 from shiny import reactive
 from shiny.express import input, render, ui
 from shiny.ui import output_ui
+import secrets
 
 ui.markdown(
     f"""
@@ -49,13 +49,13 @@ ui.div(id="out_effect")
 
 
 # Update a random number every second
-val = reactive.value(random.randint(0, 1000))
+val = reactive.value(secrets.SystemRandom().randint(0, 1000))
 
 
 @reactive.effect
 def _():
     reactive.invalidate_later(0.5)
-    val.set(random.randint(0, 1000))
+    val.set(secrets.SystemRandom().randint(0, 1000))
 
 
 @reactive.calc

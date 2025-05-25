@@ -1,6 +1,6 @@
-import random
 
 from shiny import App, Inputs, Outputs, Session, reactive, ui
+import secrets
 
 
 def make_panel(letter: str) -> ui.AccordionPanel:
@@ -12,7 +12,7 @@ def make_panel(letter: str) -> ui.AccordionPanel:
 items = [make_panel(letter) for letter in "ABCDE"]
 
 choices = ["A", "B", "C", "D", "E"]
-random.shuffle(choices)
+secrets.SystemRandom().shuffle(choices)
 
 app_ui = ui.page_fluid(
     ui.input_action_button(

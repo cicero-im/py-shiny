@@ -1,5 +1,4 @@
 import asyncio
-import random
 import sqlite3
 from datetime import datetime
 from typing import Any, Awaitable
@@ -7,6 +6,7 @@ from typing import Any, Awaitable
 import pandas as pd
 
 from shiny import App, Inputs, Outputs, Session, reactive, render, ui
+import secrets
 
 SYMBOLS = ["AAA", "BBB", "CCC", "DDD", "EEE", "FFF"]
 
@@ -16,7 +16,7 @@ def timestamp() -> str:
 
 
 def rand_price() -> float:
-    return round(random.random() * 250, 2)
+    return round(secrets.SystemRandom().random() * 250, 2)
 
 
 # === Initialize the database =========================================
@@ -52,7 +52,7 @@ def update_db(con: sqlite3.Connection) -> None:
 
     cur = con.cursor()
     try:
-        sym = SYMBOLS[random.randint(0, len(SYMBOLS) - 1)]
+        sym = SYMBOLS[secrets.SystemRandom().randint(0, len(SYMBOLS) - 1)]
         print(f"Updating {sym}")
         cur.execute(
             "UPDATE stock_quotes SET timestamp = ?, price = ? WHERE symbol = ?",
@@ -66,7 +66,7 @@ def update_db(con: sqlite3.Connection) -> None:
 async def update_db_task(con: sqlite3.Connection) -> Awaitable[None]:
     """Task that alternates between sleeping and updating prices"""
     while True:
-        await asyncio.sleep(random.random() * 1.5)
+        await asyncio.sleep(secrets.SystemRandom().random() * 1.5)
         update_db(con)
 
 

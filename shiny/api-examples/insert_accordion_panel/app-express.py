@@ -1,7 +1,7 @@
-import random
 
 from shiny import reactive, ui
 from shiny.express import input
+import secrets
 
 
 def make_panel(letter):
@@ -17,4 +17,4 @@ ui.accordion(*[make_panel(letter) for letter in "ABCDE"], id="acc", multiple=Tru
 @reactive.effect
 @reactive.event(input.add_panel)
 def _():
-    ui.insert_accordion_panel("acc", make_panel(str(random.randint(0, 10000))))
+    ui.insert_accordion_panel("acc", make_panel(str(secrets.SystemRandom().randint(0, 10000))))

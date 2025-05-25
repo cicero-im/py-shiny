@@ -1,7 +1,7 @@
-import random
 import time
 
 from shiny import App, Inputs, Outputs, Session, reactive, render, ui
+import secrets
 
 app_ui = ui.page_fluid(
     ui.card(
@@ -23,12 +23,12 @@ def server(input: Inputs, output: Outputs, session: Session):
             p.set(i / 30, message="Computing, please wait...")
             time.sleep(0.1)
         p.close()
-        return random.randint(1, 1000)
+        return secrets.SystemRandom().randint(1, 1000)
 
     @reactive.calc
     def second():
         input.second()
-        return random.randint(1, 1000)
+        return secrets.SystemRandom().randint(1, 1000)
 
     @render.text
     def result():

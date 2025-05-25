@@ -1,10 +1,10 @@
-import random
 
 from shiny import reactive
 from shiny.express import input, ui
+import secrets
 
 choices = ["A", "B", "C", "D", "E"]
-random.shuffle(choices)
+secrets.SystemRandom().shuffle(choices)
 
 ui.input_action_button(
     "remove_panel",

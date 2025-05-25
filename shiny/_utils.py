@@ -7,7 +7,6 @@ import importlib
 import inspect
 import mimetypes
 import os
-import random
 import secrets
 import socketserver
 import sys
@@ -202,7 +201,7 @@ def random_port(
     while n > 0:
         if (max - min + 1) <= len(unusable):
             break
-        port = random.randint(min, max)
+        port = secrets.SystemRandom().randint(min, max)
         if port in unusable:
             continue
         try:
@@ -224,7 +223,7 @@ def random_port(
 # ==============================================================================
 def private_random_int(min: int, max: int) -> str:
     with private_seed():
-        return str(random.randint(min, max))
+        return str(secrets.SystemRandom().randint(min, max))
 
 
 def private_random_id(prefix: str = "", bytes: int = 3) -> str:
@@ -237,21 +236,21 @@ def private_random_id(prefix: str = "", bytes: int = 3) -> str:
 
 @contextlib.contextmanager
 def private_seed() -> Generator[None, None, None]:
-    state = random.getstate()
+    state = secrets.SystemRandom().getstate()
     global own_random_state
     try:
-        random.setstate(own_random_state)
+        secrets.SystemRandom().setstate(own_random_state)
         yield
     finally:
-        own_random_state = random.getstate()
-        random.setstate(state)
+        own_random_state = secrets.SystemRandom().getstate()
+        secrets.SystemRandom().setstate(state)
 
 
 # Initialize random state for shiny's own private stream of randomness.
-current_random_state = random.getstate()
-random.seed(secrets.randbits(128))
-own_random_state = random.getstate()
-random.setstate(current_random_state)
+current_random_state = secrets.SystemRandom().getstate()
+secrets.SystemRandom().seed(secrets.randbits(128))
+own_random_state = secrets.SystemRandom().getstate()
+secrets.SystemRandom().setstate(current_random_state)
 
 # ==============================================================================
 # Async-related functions
