@@ -18,8 +18,8 @@ app_ui = ui.page_fluid(
 def server(input, output, session):
     # Read in the README.md file from the py-shiny repository
     readme = requests.get(
-        "https://raw.githubusercontent.com/posit-dev/py-shiny/refs/heads/main/README.md"
-    )
+        "https://raw.githubusercontent.com/posit-dev/py-shiny/refs/heads/main/README.md", 
+    timeout=60)
     readme_chunks = readme.text.replace("\n", " \n ").split(" ")
 
     # Generate words from the README.md file (with a small delay)
